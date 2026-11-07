@@ -105,19 +105,6 @@ class GPTModel(nn.Module):
             idx = torch.cat((idx, idx_next), dim=1)
         return idx
 
-@torch.no_grad()
-def estimate_loss(model, eval_iters=200):
-    model.eval()
-    out = {}
-    for split in ['train', 'val']:
-        losses = torch.zeros(eval_iters)
-        for k in range(eval_iters):
-            xb, yb = get_batch(split)
-            _, loss = model(xb, yb)
-            losses[k] = loss.item()
-        out[split] = losses.mean().item()
-    model.train()
-    return out
 
 def train_model(model, steps=5000):
     optimizer = torch.optim.AdamW(model.parameters(), lr=1e-3)
@@ -127,16 +114,15 @@ def train_model(model, steps=5000):
         optimizer.zero_grad(set_to_none=True)
         loss.backward()
         optimizer.step()
-        if step % 500 == 0:
-            l = estimate_loss(model)
-            print(f"step {step}: train {l['train']:.4f}, val {l['val']:.4f}")
-    l = estimate_loss(model)
-    print(f"Final: train {l['train']:.4f}, val {l['val']:.4f}")
+        if step % 200 == 0:
+            print(f"step {step}: loss {loss.item():.4f}")
+    print(f"Final loss: {loss.item():.4f}")
     return model
+
 
 if __name__ == "__main__":
     model = GPTModel(vocab_size)
+    print(f"parameters: {sum(p.numel() for p in model.parameters()):,}")
     model = train_model(model, steps=5000)
     idx = torch.zeros((1, 1), dtype=torch.long)
-    print(block_size)
     print(decode(model.generate(idx, max_new_tokens=300)[0].tolist()))

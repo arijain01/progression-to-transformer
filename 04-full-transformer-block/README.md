@@ -3,29 +3,47 @@
 Complete GPT-style architecture: token + position embeddings, 4 stacked
 pre-norm transformer blocks (LayerNorm -> multi-head attention ->
 residual, LayerNorm -> feed-forward -> residual), final LayerNorm,
-linear readout. n_embd 32, 4 heads, 5,000 steps, batch size 64.
+linear readout. n_embd 32, 4 heads, block_size 32, batch size 64,
+5,000 steps. 55,745 parameters.
+
+Builds on 03-transformer-block. New: stacking blocks, a final LayerNorm
+(`ln_f`), and pre-norm.
 
 ## What each addition does
-- **LayerNorm (pre-norm):** normalizes the input to each sublayer, not
-  the residual stream itself, so the stream stays a clean additive
-  accumulator.
 - **Stacking 4 blocks:** adds depth (later layers build on earlier
   ones). It does NOT extend context: every layer sees the same window.
-  Only block_size does that.
+  Only block_size increase context.
+- **Final LayerNorm (`ln_f`):** normalizes the residual stream once
+  more before the linear readout.
+- **Pre-norm:** LayerNorm is applied to the input of each sublayer, not
+  to the residual stream, so the stream stays a clean additive
+  accumulator.
 
-## Results (loss averaged over 200 batches)
+## Shapes
+Every block maps batch_size x number_of_Tokens x n_embd to the same shape. Only the
+readout changes it, to batch_size x number_of_Tokens x vocab_size.
 
-| block_size | train | val | gap |
-|---|---|---|---|
-| 8  | 1.890 | 2.009 | 0.119 |
-| 16 | 1.790 | 1.946 | 0.157 |
-| 32 | 1.729 | 1.873 | 0.144 |
+## Result
+Final training loss (last batch): 1.7100
 
-Each doubling of context lowered val loss by about 0.065, with a steady
-train/val gap, so longer context was not just overfitting. The
-block_size 32 curve was still falling fastest at step 5000, so it is
-probably under-trained. Single run per setting; seed sensitivity not
-tested.
+Sample (300 characters):
+
+```
+FERCUS:
+Have the her wound heald look of Corrow
+more on the I love worldchman,
+Far love unfiss,, in
+Be may ittrious un!
+
+RATICHAP:
+She, canst no new heart, it fist
+To are than to king, be that lut of why,
+TRer plorsss; over I signs, whoms,
+Alen you, disprinest's home;
+Let whomans on lover
+Do his ha
+```
+
 
 ## How to run
 ```bash
