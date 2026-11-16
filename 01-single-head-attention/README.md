@@ -1,7 +1,6 @@
-# single-attention-head
+# Transformer consisting of exactly One Attention Head
 
-A from-scratch implementation of one scaled dot-product self-attention
-head in PyTorch
+Code for a single attention head. Each token looks back at earlier tokens and takes a weighted average of what they carry.
 
 ## Files
 - `prepare_data.py` — loads tiny-shakespeare, tokenizer, batching.
@@ -11,17 +10,23 @@ head in PyTorch
   head, linear readout), plus training and generation.
 
 ## Results
-Trained for 5,000 steps, batch size 32-64, block size 8, n_embd 32, head
-size 16. Loss settles in the 2.3-2.5 range - a modest but real improvement. A single attention head cannot probably capture a lot.
+Trained for 5,000 steps, batch size 64, block size 8, n_embd 32, head
+size 16. Loss settles in the 2.3-2.5 range. With no training, the loss is around 4.3. Therefore, it is at least not randomly picking. A single attention head cannot probably capture a lot.
 
-Sample generation after training:
+Sample generation of 300 tokens after training:
+
 ```
-Won wear dalt sorgares ken soug me busey tave mee ano be pit ishe
+BO ETENNHAUEno Ant mbe:
+ABLAnow ime hy theve's none wel! 't, our fal dilifoy,
+Rafy mmest ornouepeayreeald:
+AI farind ut aur ingeridu che hel at the norrepou I thelebarvo youes dlof gle; ade mes thin,
+FUrd Ss on; omjoom:
+TLOLUCO:
+AROA hurid ceans it nd nof moul, ye, brotan ald cwher masn cked:
+Th's-
 ```
 
-Not yet real words, but visibly different from bigram output. Some
-correct short words and more plausible letter clusters, showing the
-model using more than one character of context for the first time.
+There is some structure like colon, appostrophe in the output but the words do not make sense.
 
 ## How to run
 ```bash
