@@ -1,12 +1,11 @@
-# Multi Head Attention
+# Transformer with Multi-Head Attention
 
-Four parallel self-attention heads (8 dimensions each) run side by side
-and concatenated, followed by a single layer. The model is trained tiny-shakespeare character-level pipeline.
+Four parallel self-attention heads (8 dimensions each) run side by side, and their outputs are concatenated. The model is trained on tiny-shakespeare, using the same pipeline as the single-head stage.
 
 ## Files
 - `prepare_data.py` — tokenizer and batching (copied from
   single-attention-head).
-- `multihead.py` — `Head` (unchanged from single-head version),
+- `multihead.py` — contains `Head` (unchanged from single-head version),
   `MultiHeadAttention` (runs 4 heads in parallel via `nn.ModuleList`,
   concatenates their outputs, projects back to `n_embd` width), and
   `MultiHeadModel`.
@@ -24,16 +23,11 @@ training noise:
 | 32 | ~2.2-2.4 |
 | 64 | ~2.1-2.3 |
 
-Larger batches give a cleaner gradient estimate and a modestly better
-floor, but the improvement is small and plateaus — the real ceiling here
-is the 8-character context window, not batch size. Four heads extract
-more *kinds* of pattern from that window than one head could, but none
-of them can see further back than 8 characters, so this won't improve
-substantially until block_size increases or more layers are stacked.
 
-Generated text shows clearer improvement than the loss number suggests:
-more correctly-capitalized words, colons after name-shaped tokens,
-recognizable short words.
+Larger batches lower the settled loss and give a more stable curve. Part of this is simply that a larger batch sees more data in the same 5,000 steps. 
+
+In this sample, the generated text looks like a clearer improvement than the loss alone suggests: more correctly capitalized words, colons after name-like tokens, and recognizable short words such as be, is, and as.
+
 
 # Sample Output (Batch Size is 64) 
 
