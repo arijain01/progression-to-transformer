@@ -1,17 +1,18 @@
 # Transformer consisting of exactly One Attention Head
 
-Code for a single attention head. Each token looks back at earlier tokens and takes a weighted average of what they carry.
+
+Code for a single attention head. 
 
 ## Files
-- `prepare_data.py` — loads tiny-shakespeare, tokenizer, batching.
 
-- `attention.py` — defines `Head` (one attention head with causal masking)
-  and `SingleHeadModule` (token + positional embeddings, one attention
-  head, linear readout), plus training and generation.
+* `prepare_data.py` — loads tiny-shakespeare, builds the tokenizer, and handles batching.
+* `attention.py` — defines `Head` (one attention head with causal masking) and `SingleHeadModule` (token and positional embeddings, one attention head, and a linear readout), plus training and generation.
 
 ## Results
-Trained for 5,000 steps, batch size 64, block size 8, n_embd 32, head
-size 16. Loss settles in the 2.3-2.5 range. With no training, the loss is around 4.3. Therefore, it is at least not randomly picking. A single attention head cannot probably capture a lot.
+
+
+Trained for 5,000 steps with batch size 64, block size 8, n_embd 32, and head size 16. The loss settles in the 2.3–2.5 range, down from about 4.3 before training. For comparison, a uniform random guesser over a 65-character vocabulary would score ln 65 ≈ 4.17, so the model is clearly learning something. 
+
 
 Sample generation of 300 tokens after training:
 
