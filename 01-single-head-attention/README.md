@@ -1,4 +1,4 @@
-# Transformer consisting of exactly One Attention Head
+#  Transformer with a Single Attention Head
 
 
 Code for a single attention head. 
