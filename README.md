@@ -1,9 +1,16 @@
-# mini-gpt-journey
+# Progression to Transformer-Style Architecture
 
-A GPT-style transformer in PyTorch,
-following roughly Andrej Karpathy's "Let's build GPT" video. We do a step by step construction of the GPT so that the progression to GPT is visible. Built as proof-of-work for a pivot toward mechanistic interpretability.
+Four small PyTorch programs that build from a single attention head up to a
+GPT-style transformer, one idea per stage, trained on tiny-shakespeare.
+The aim is to make the progression visible.
 
-## The journey
+## Credit and AI disclosure
+Inspired by Andrej Karpathy's "Let's build GPT" video; this is not a
+reproduction of his code. I built the stages with substantial help from
+Claude (Anthropic) in planning and coding. I ran, debugged, and wrote the explanations for each stage as a way to
+learn the architecture.
+
+## The Progression
 
 | Stage | Folder | What it adds | Loss on tiny-shakespeare |
 |---|---|---|---|
