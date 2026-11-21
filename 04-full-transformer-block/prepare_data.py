@@ -44,7 +44,6 @@ block_size = 32
 
 
 # Step 8: The batch size is mainly for running things on GPU efficiently
-#batch_size = 4
 #batch_size = 8 
 #batch_size = 16
 #batch_size = 32
