@@ -122,7 +122,7 @@ def train_model(model, steps=5000):
 
 if __name__ == "__main__":
     model = GPTModel(vocab_size)
-    print(f"parameters: {sum(p.numel() for p in model.parameters()):,}")
+#    print(f"parameters: {sum(p.numel() for p in model.parameters()):,}")
     model = train_model(model, steps=5000)
     idx = torch.zeros((1, 1), dtype=torch.long)
     print(decode(model.generate(idx, max_new_tokens=300)[0].tolist()))
