@@ -110,7 +110,7 @@ It can be a good experiment to change different type of parameters and see what 
 python3 -m venv venv
 source venv/bin/activate
 pip install torch
-BATCH_SIZE=64 python3 stacked.py
+python3 stacked.py
 ```
 
 ## Still different from GPT-2
