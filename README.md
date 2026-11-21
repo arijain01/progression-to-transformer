@@ -7,7 +7,7 @@ The aim is to make the progression visible.
 ## Credit and AI disclosure
 Inspired by Andrej Karpathy's "Let's build GPT" video; this is not a
 reproduction of his code. I built the stages with substantial help from
-Claude (Anthropic) in planning and coding. I typed, ran, debugged, and wrote the explanations for each stage as a way to
+Claude (Anthropic) in planning and coding. I typed the code, ran, debugged, and wrote the explanations for each stage as a way to
 learn the architecture.
 
 ## The Progression
